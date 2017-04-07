@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#  FileVault Password Sync
+#  LastReportedMACAddress.sh
 #  
 #
 #  Created 04/06/2017 by 	Glynn Lane 		primalcurve
