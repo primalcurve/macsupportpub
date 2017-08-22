@@ -40,7 +40,7 @@ lsregister='/System/Library/Frameworks/CoreServices.framework/Versions/A/Framewo
 if [[ -f "$plistLocation" ]]
 	then
 		# Initialize counter that will just keep moving us through the array of dicts
-		# A bit imprecise... would be better if we could just count the array of dicts, but we'll stop when we get to a blank one
+		# Count up until we get to a blank dict. This is the total number in the plist.
 		countUp=0
 
 		until [[ "$dictCount" == *'", Does Not Exist'* ]]
@@ -48,6 +48,9 @@ if [[ -f "$plistLocation" ]]
 				dictCount=$(2>&1 "$plistBuddy" -c "Print LSHandlers:$countUp" "$plistLocation")
 				countUp=$((countUp+1))
 			done
+		# Interate down through the plist, removing any matching dicts. This will prevent a 
+		# situation where the deleted dict's address is taken over by the one following it.
+		# Otherwise, the moved dict is missed and this process is incomplete.
 		countDown="$countUp"
 		until [[ "${countDown}" == -1 ]]	
 			do
